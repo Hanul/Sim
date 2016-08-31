@@ -1,0 +1,3 @@
+global.Sim = function(code) {
+	
+};

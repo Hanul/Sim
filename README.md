@@ -1,15 +1,17 @@
 # Sim
 JavaScript로 컴파일되는 심플한 언어
-* 키워드가 극히 적음 (7개)
+* 키워드가 극히 적음 (단 9개 - `var`, `true`, `false`, `undef`, `if`, `else`, `for`, `in`, `class`)
 * 문자열은 무조건 `'`으로 감싸며 `"`는 쓰지 않음
 * 라인의 끝에는 `;`를 쓰지 않음
-* 코드 블럭은 맨 앞에 탭 필수
+* `,`를 쓰지 않음
+* 탭으로 코드 블럭 표현
 
 ## var
 ```sim
 var a = 123
 var b = 'abc'
 var c = true
+var array = [1 2 3]
 c = false
 ```
 
@@ -87,10 +89,24 @@ object.b = 'abc'
 object.c = true
 ```
 
-### 클래스?
-Sim에는 클래스가 없습니다. 그냥 객체를 복사하면 됩니다.
+### 클래스
 ```
-var object2 = copy(object)
+var Class = class
+	
+	a = 123
+	b = 'abc'
+	c = true
+	
+	// 생성자
+	(c)
+		this.c = c
+	
+	fn = ()
+		a + b
+
+var object = Class(false)
+object.a = 333
+object.fn()
 ```
 
 ## 예제
