@@ -1,5 +1,6 @@
-let func = (a b c)
+# test
+let func = (a, b, c)
 	a + b + c
 	
 if true == true
-	console.log('Hello World!')
+	console.log('Hello World!', func(1, 2, 3))

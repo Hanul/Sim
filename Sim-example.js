@@ -1,9 +1,7 @@
-// import UPPERCASE-CORE.
 require('uppercase-core');
 
 INIT_OBJECTS();
 
-// import Sim.
 require('./Sim.js');
 
 let simCode = READ_FILE({
@@ -13,6 +11,7 @@ let simCode = READ_FILE({
 
 let jsCode = Sim(simCode);
 
-console.log('=========================================================');
-console.log(jsCode);
-//eval(jsCode);
+//console.log('=========================================================');
+//console.log(jsCode);
+
+eval(jsCode);

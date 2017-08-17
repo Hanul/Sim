@@ -1,46 +1,130 @@
 /*
  * Sim 코드를 JavaScript 코드로 컴파일합니다.
+ * 
+ * TODO: SON 처리
  */
 global.Sim = METHOD((m) => {
 	
+	const SPECIAL_CHARS = '~`!#$%^&*+=-[]\\\';,/{}|":<>?';
+	
 	let parseExpression = (expression) => {
 		
-		//console.log(expression);
+		let jsCode = '';
 		
-		return expression;
+		let isStringMode;
+		let isCommentMode;
+		
+		let nowMode;
+		let token = '';
+		
+		let appendToken = (mode, ch) => {
+			
+			if (nowMode !== mode) {
+				
+				if (nowMode === 'comment') {
+					jsCode += '// ' + token;
+				} else if (nowMode === 'string') {
+					jsCode += '\'' + token + '\'';
+				} else {
+					
+					if (token === '==') {
+						token = '===';
+					}
+					
+					jsCode += token;
+				}
+				
+				nowMode = mode;
+				
+				token = '';
+			}
+			
+			token += ch;
+		};
+		
+		EACH(expression, (ch, i) => {
+			
+			// 문자열
+			if (isCommentMode !== true && ch === '\'' && expression[i - 1] !== '\\') {
+				
+				if (isStringMode === true) {
+					isStringMode = false;
+				} else {
+					isStringMode = true;
+				}
+			}
+			
+			// 주석
+			else if (isStringMode !== true && ch === '#') {
+				isCommentMode = true;
+			}
+			
+			// 배열도 문자열도 주석도 아닌 경우
+			else {
+				
+				// 주석
+				if (isCommentMode === true) {
+					appendToken('comment', ch);
+				}
+				
+				// 문자열
+				else if (isStringMode === true) {
+					appendToken('string', ch);
+				}
+				
+				// 공백
+				else if (ch === ' ' || ch === '\t' || ch === '\r') {
+					appendToken('space', ch);
+				}
+				
+				// 연산자
+				else if (SPECIAL_CHARS.indexOf(ch) != -1) {
+					appendToken('operator', ch);
+				}
+				
+				// 토큰
+				else {
+					appendToken('var', ch);
+				}
+			}
+		});
+		
+		jsCode += token;
+		
+		return jsCode;
 	};
 	
 	let parse = (code, blockLevel, isInFunc) => {
 		
-		let jsCode = '';
-		
-		let subCode = '';
 		let lastIndex = 0;
 		
 		let isStringMode;
 		let arrayLevel = 0;
-		
-		let isLetMode;
-		let isFuncMode;
+		let isCommentMode;
 		
 		let lines = [];
 		
 		EACH(code, (ch, i) => {
 			
 			// 배열
-			if (isStringMode !== true && ch === '[') {
+			if (isStringMode !== true && isCommentMode !== true && ch === '[') {
 				arrayLevel += 1;
-			} else if (isStringMode !== true && ch === ']') {
+			} else if (isStringMode !== true && isCommentMode !== true && ch === ']') {
 				arrayLevel -= 1;
 			}
 			
 			// 문자열
-			else if (ch === '\'' && code[i - 1] !== '\\') {
+			else if (isCommentMode !== true && ch === '\'' && code[i - 1] !== '\\') {
 				if (isStringMode === true) {
 					isStringMode = false;
 				} else {
 					isStringMode = true;
 				}
+			}
+			
+			// 주석
+			else if (isStringMode !== true && ch === '#') {
+				isCommentMode = true;
 			}
 			
 			// 배열도 문자열도 아닌 경우 한 줄 해석
@@ -52,6 +136,8 @@ global.Sim = METHOD((m) => {
 				}
 				
 				lastIndex = i + 1;
+				
+				isCommentMode = false;
 			}
 		});
 		
@@ -72,6 +158,13 @@ global.Sim = METHOD((m) => {
 				lines.push(p);
 			}
 		}
+		
+		let jsCode = '';
+		
+		let subCode = '';
+		
+		let isLetMode;
+		let isFuncMode;
 		
 		EACH(lines, (line, i) => {
 			
@@ -103,7 +196,11 @@ global.Sim = METHOD((m) => {
 					
 					line = line.trim();
 					
-					if (line.substring(0, 4) === 'let ') {
+					if (line[0] === '#') {
+						jsCode += '//' + line.substring(1) + '\n';
+					}
+					
+					else if (line.substring(0, 4) === 'let ') {
 						jsCode += 'let ' + parseExpression(line.substring(4));
 						isLetMode = true;
 					}

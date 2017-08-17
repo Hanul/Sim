@@ -3,7 +3,6 @@ JavaScript로 컴파일되는 심플한 언어
 * 키워드가 극히 적음 (단 8개 - `let`, `true`, `false`, `undef`, `if`, `else`, `for`, `in`)
 * 문자열은 무조건 `'`으로 감싸며 `"`는 쓰지 않음
 * 라인의 끝에는 `;`를 쓰지 않음
-* `,`를 쓰지 않음
 * 탭으로 코드 블럭 표현
 * [SON 표현식](https://github.com/Hanul/SON) 사용
 
@@ -12,7 +11,7 @@ JavaScript로 컴파일되는 심플한 언어
 let a = 123
 let b = 'abc'
 let c = true
-let array = [1 2 3]
+let array = [1, 2, 3]
 c = false
 ```
 
@@ -32,7 +31,7 @@ if a == true
 ```
 
 ## for / in
-```
+```sim
 for a == true
     console.log('a is true?')
 for a in 1 ~ 10
@@ -47,18 +46,15 @@ for name value in data
 
 ## 함수
 ```sim
-let func = (a b c)
+let func = (a, b, c)
     a + b + c
 
-console.log(func(1 2 3) + 3)
+console.log(func(1, 2, 3) + 3)
 ```
 
-끝! 다 배웠습니다.
-
-## 기타
-### [SON 표현식](https://github.com/Hanul/SON)
-대입 연산자(`=`) 이후 아무런 내용이 없으면 그 아래 줄부터 SON 표현식이 시작됩니다.
-```
+## [SON 표현식](https://github.com/Hanul/SON)
+대입 연산자(`=`) 이후 아무런 내용이 없으면 그 아래 줄부터 SON 표현식이 시작됩니다. 이를 통해 쉽게 객체를 생성할 수 있습니다.
+```sim
 let son =
 	a 123
 	b 'abc'
@@ -67,21 +63,17 @@ let son =
 son.d = false
 ```
 
-### 내장함수
-Sim에는 단 1개의 내장함수만 있습니다.
-#### import
-```
+## import
+`import`는 Sim에 존재하는 유일한 내장함수입니다.
+```sim
 let module = import('module.sim')
 let js_module = import('module.js')
 ```
 
-### 객체
-[SON 표현식](https://github.com/Hanul/SON)을 사용해서 쉽게 객체를 만들 수 있습니다.
-```
-let object =
-	a 123
-	b 'abc'
-	c true
+## 주석
+```sim
+# 안녕하세요. 주석입니다.
+let a = 1
 ```
 
 ## 예제
@@ -93,3 +85,9 @@ let fib = (n)
     else
         fib(n - 1) + fib(n - 2)
 ```
+
+## 라이센스
+[MIT](LICENSE)
+
+## 작성자
+[Young Jae Sim](https://github.com/Hanul)
