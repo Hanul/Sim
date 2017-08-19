@@ -1,6 +1,5 @@
 # test
 let func = (a, b, c)
 	a + b + c
-	
-if true == true
-	console.log('Hello World!', func(1, 2, 3))
+
+console.log('Hello World!')

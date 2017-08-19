@@ -1,0 +1,22 @@
+console.log(
+	name		'YJ Sim'
+	age			29
+	is_human	true
+	contact		[
+		'hanul@hanul.me',
+		'admin@btncafe.com',
+		emergency
+			phone	'010-1234-5678'
+			fax		'010-8765-4321'
+	]
+	address
+		country	'Korea'
+		city	'Seoul'
+	func ()
+		a + b + c
+	description '
+		Hi, I\'m YJ Sim.
+		I am a developer.
+		Bye.
+	'
+)
