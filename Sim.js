@@ -268,11 +268,18 @@ global.Sim = METHOD((m) => {
 			
 			if (nowMode !== mode) {
 				
+				// 주석
 				if (nowMode === 'comment') {
-					jsCode += '// ' + token;
-				} else if (nowMode === 'string') {
+					// 무시한다.
+				}
+				
+				// 문자열
+				else if (nowMode === 'string') {
 					jsCode += '\'' + token + '\'';
-				} else {
+				}
+				
+				// 기타
+				else {
 					
 					if (token === '==') {
 						token = '===';
@@ -336,7 +343,7 @@ global.Sim = METHOD((m) => {
 			}
 		});
 		
-		jsCode += token;
+		appendToken();
 		
 		return jsCode;
 	};
@@ -470,8 +477,11 @@ global.Sim = METHOD((m) => {
 							
 							// SON 파싱
 							if (isSONMode === true) {
-								jsCode += ' ' + parseSON(subCode, blockLevel + 1);
-							} else {
+								jsCode += ' ' + parseSON(subCode, blockLevel + 1) + '\n';
+							}
+							
+							// 코드 블록
+							else {
 								jsCode += (isFuncMode === true ? ' =>' : '') + ' {\n' + parse(subCode, blockLevel + 1, isFuncMode) + '\n';
 								REPEAT(blockLevel, () => {
 									jsCode += '\t';
@@ -481,6 +491,8 @@ global.Sim = METHOD((m) => {
 							
 							subCode = '';
 						}
+						
+						jsCode += '\n';
 						
 						isFuncMode = false;
 						isSONMode = false;
@@ -504,7 +516,7 @@ global.Sim = METHOD((m) => {
 						
 						// let
 						else if (line.substring(0, 4) === 'let ') {
-							jsCode += 'let ' + parseExpression(line.substring(4));
+							jsCode += 'let ' + parseExpression(line.substring(4)) + (isFuncMode !== true && isSONMode !== true ? '\n' : '');
 						}
 						
 						// if
@@ -532,7 +544,7 @@ global.Sim = METHOD((m) => {
 						
 						// 기타
 						else {
-							jsCode += (isInFunc === true && i === lines.length - 1 ? 'return ' : '') + parseExpression(line);
+							jsCode += (isInFunc === true && i === lines.length - 1 ? 'return ' : '') + parseExpression(line) + (isFuncMode !== true && isSONMode !== true ? '\n' : '');
 						}
 					}
 					
@@ -546,8 +558,11 @@ global.Sim = METHOD((m) => {
 				
 				// SON 파싱
 				if (isSONMode === true) {
-					jsCode += ' ' + parseSON(subCode, blockLevel + 1);
-				} else {
+					jsCode += ' ' + parseSON(subCode, blockLevel + 1) + '\n';
+				}
+				
+				// 코드 블록
+				else {
 					jsCode += (isFuncMode === true ? ' =>' : '') + ' {\n' + parse(subCode, blockLevel + 1, isFuncMode) + '\n';
 					REPEAT(blockLevel, () => {
 						jsCode += '\t';

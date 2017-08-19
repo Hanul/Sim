@@ -1,6 +1,6 @@
 # Sim
 JavaScript로 컴파일되는 심플한 언어
-* 키워드가 극히 적음 (단 8개 - `let`, `true`, `false`, `undef`, `if`, `else`, `for`, `in`)
+* 키워드가 극히 적음 (단 9개 - `let`, `true`, `false`, `undef`, `if`, `else`, `for`, `in`, `return`)
 * 문자열은 무조건 `'`으로 감싸며 `"`는 쓰지 않음
 * 라인의 끝에는 `;`를 쓰지 않음
 * 탭으로 코드 블럭 표현
@@ -18,36 +18,36 @@ c = false
 ## if / else
 ```sim
 if a == 1
-    console.log('a is 1.')
+	console.log('a is 1.')
 else
-    console.log('a is not 1.')
+	console.log('a is not 1.')
 ```
 
 ## true / false
 ```sim
 a = false
 if a == true
-    console.log('a is true.')
+	console.log('a is true.')
 ```
 
 ## for / in
 ```sim
 for a == true
-    console.log('a is true?')
+	console.log('a is true?')
 for a in 1 ~ 10
-    console.log(a)
+	console.log(a)
 for value in array
-    console.log(value)
+	console.log(value)
 for index value in array
-    console.log(index value)
+	console.log(index value)
 for name value in data
-    console.log(name value)
+	console.log(name value)
 ```
 
 ## 함수
 ```sim
 let func = (a, b, c)
-    a + b + c
+	a + b + c
 
 console.log(func(1, 2, 3) + 3)
 ```
@@ -80,10 +80,10 @@ let a = 1
 피보나치 수열
 ```
 let fib = (n)
-    if n <= 2
-        1
-    else
-        fib(n - 1) + fib(n - 2)
+	if n <= 2
+		return 1
+	else
+		return fib(n - 1) + fib(n - 2)
 ```
 
 ## 라이센스

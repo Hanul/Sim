@@ -5,7 +5,7 @@ INIT_OBJECTS();
 require('./Sim.js');
 
 let simCode = READ_FILE({
-	path : 'Example/SON.sim',
+	path : 'Example/fibonacci.sim',
 	isSync : true
 }).toString();
 

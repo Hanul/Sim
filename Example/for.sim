@@ -1,0 +1,8 @@
+for a in 1 ~ 10
+	console.log(a)
+for value in array
+	console.log(value)
+for index value in array
+	console.log(index value)
+for name value in data
+	console.log(name value)
